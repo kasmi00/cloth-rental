@@ -1,0 +1,65 @@
+
+        /* Apply styles to the body */
+html,body {
+    
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    text-align: center;
+    font-size: medium;
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    height: 100%; /* Set height to 100% */
+    width:100%;
+ 
+   
+}
+
+h1{
+    padding:20px;
+    margin:10px 10px;
+    font-family: 'Times New Roman', Times, serif;
+  
+    
+
+}
+/* p{
+    font-family: 'Dancing Script', cursive;
+} */
+/* Apply styles to the container */
+.container {
+    /* max-width: 800px; */
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    overflow: hidden; /* Clear the float */
+}
+
+/* Apply styles to the clothing image */
+.clothing-image {
+    float: right; /* Float the image to the right */
+    width: 60%; /* Adjust this value based on your design preference */
+    height: 40%;
+  }
+
+/* Apply styles to the quotation */
+.quotation {
+    font-family: 'Dancing Script', cursive;
+    font-size: 30px;
+    margin-top: 50px;
+    /* text-align: left; */
+}
+.rent-button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.rent-button:hover {
+    background-color: #0056b3;
+}
+

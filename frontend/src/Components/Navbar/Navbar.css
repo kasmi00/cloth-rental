@@ -1,0 +1,62 @@
+/* Style the navigation bar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #edbbbb;
+  padding: 10px;
+}
+
+.logo {
+  height: 100px;
+  width: auto;
+}
+
+.menu-icon {
+  display: none;
+  cursor: pointer;
+}
+
+.menu-items {
+  display: flex;
+}
+
+.menu-items a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px;
+  margin: 0 10px;
+  font-size: 1.2rem;
+}
+.menu-items a:hover {
+  background-color: rgba(201, 84, 131, 0.5);
+  border-radius: 20%;
+}
+/* Hamburger icon styles */
+.bar {
+  height: 3px;
+  width: 25px;
+  background-color: #fff;
+  margin: 6px 0;
+}
+
+/* Media query for small screens */
+@media screen and (max-width: 600px) {
+  .menu-icon {
+    display: block;
+  }
+
+  .menu-items {
+    flex-direction: column;
+    position: absolute;
+    top: 90px;
+    left: 0;
+    width: 100%;
+    background-color: #e6a1a1;
+    z-index: 1;
+  }
+  .menu-items a:hover {
+    background-color: rgba(201, 84, 131, 0.2);
+    border-radius: 0%;
+  }
+}
