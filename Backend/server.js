@@ -30,7 +30,7 @@ const startServer = async () => {
     // Initialize Socket.IO
     const io = socketIo(server, {
       cors: {
-        origin: "http://localhost:5173",
+        origin: "http://localhost:27017",
         credentials: true,
       },
     });
@@ -79,4 +79,3 @@ const startServer = async () => {
 
 // Start the Server
 startServer();
-

@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Asmita, Mahima, Sabina",
-  "license": "MIT",
+  "license": "ISC",
   "private": true,
   "dependencies": {
     "bcrypt": "^5.1.1",
