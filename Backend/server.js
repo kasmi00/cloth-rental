@@ -1,58 +1,82 @@
-const app = require("express")();
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const socketIo = require("socket.io");
 const connectToMongo = require("./database/db");
 const router = require("./routes/route");
-const cors = require("cors");
-const bodyparser = require("body-parser");
-const socket = require("socket.io");
-require("dotenv").config();
-const PORT = 5001;
 
+const app = express();
+const PORT = process.env.PORT || 5001;
+
+// Middleware
 app.use(cors());
-// Body-parser middleware
-app.use(bodyparser.urlencoded({ extended: true }));
-app.use(bodyparser.json());
+app.use(express.json()); // No need for `body-parser`
+app.use(express.urlencoded({ extended: true }));
 
-// available routes
+// Available routes
 app.use("/", router);
 
-connectToMongo()
-  .then(() => {
-    try {
-      const server = app.listen(PORT, () => {
-        console.log(`Server listening on port http://localhost:${PORT}`);
-      });
-      const io = socket(server, {
-        // pingTimeout: 60000,
-        cors: {
-          origin: "http://localhost:5173",
-          credentials: true,
-        },
-      });
-      global.onlineUsers = new Map();
-      io.on("connection", (socket) => {
-        // console.log("socket established");
-        global.chatSocket = socket;
-        console.log("connected to socket.io");
-        socket.on("add-user", (userId) => {
-          onlineUsers.set(userId, socket.id);
-        });
-        socket.on("send-msg", (data) => {
-          console.log("Recieved message", data.message);
-          const sendUserSocket = onlineUsers.get(data.to);
+// Connect to MongoDB
+const startServer = async () => {
+  try {
+    await connectToMongo();
+    console.log("✅ MongoDB Connected Successfully");
 
-          if (sendUserSocket) {
-            try {
-              socket.to(sendUserSocket).emit("msg-recieved", data.message);
-            } catch (error) {
-              console.error("Error while sending the message", error);
-            }
+    // Start the server
+    const server = app.listen(PORT, () => {
+      console.log(`🚀 Server listening on: http://localhost:${PORT}`);
+    });
+
+    // Initialize Socket.IO
+    const io = socketIo(server, {
+      cors: {
+        origin: "http://localhost:5173",
+        credentials: true,
+      },
+    });
+
+    // Socket.IO Connection Handling
+    io.on("connection", (socket) => {
+      console.log("⚡ New client connected:", socket.id);
+
+      // User Tracking
+      const onlineUsers = new Map();
+
+      socket.on("add-user", (userId) => {
+        onlineUsers.set(userId, socket.id);
+        console.log(`User ${userId} connected with socket ID: ${socket.id}`);
+      });
+
+      // Message Handling
+      socket.on("send-msg", (data) => {
+        console.log("📩 Received message:", data.message);
+        const recipientSocket = onlineUsers.get(data.to);
+
+        if (recipientSocket) {
+          socket.to(recipientSocket).emit("msg-received", data.message);
+          console.log(`📤 Message sent to User ${data.to}`);
+        } else {
+          console.log(`⚠️ User ${data.to} is offline or not found.`);
+        }
+      });
+
+      // Handle Disconnect
+      socket.on("disconnect", () => {
+        console.log("❌ Client disconnected:", socket.id);
+        onlineUsers.forEach((value, key) => {
+          if (value === socket.id) {
+            onlineUsers.delete(key);
           }
         });
       });
-    } catch (error) {
-      console.error("Cannot connect to the server", error.message);
-    }
-  })
-  .catch((error) => {
-    console.error("Invalid database connection", error.message);
-  });
+    });
+
+  } catch (error) {
+    console.error("❌ Server Error:", error.message);
+    process.exit(1);
+  }
+};
+
+// Start the Server
+startServer();
+

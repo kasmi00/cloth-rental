@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const adminSeeder = require("../service/adminSeeder");
 require("dotenv").config();
-const mongoURI = process.env.URL;
+const mongoURI = process.env.MONGO_URI;
 async function connectToMongo() {
   await mongoose
     .connect(mongoURI, { useNewUrlParser: true })
