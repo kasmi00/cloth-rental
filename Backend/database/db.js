@@ -2,14 +2,16 @@ const mongoose = require("mongoose");
 const adminSeeder = require("../service/adminSeeder");
 require("dotenv").config();
 const mongoURI = process.env.MONGO_URI;
+
 async function connectToMongo() {
   await mongoose
-    .connect(mongoURI, { useNewUrlParser: true })
-    .then(() => console.log("Connected to Mongo Successfully"))
+    .connect(mongoURI)
+    .then(() => {
+      console.log("Connected to Mongo Successfully");
+      adminSeeder();
+    })
     .catch((err) => console.log(err));
 }
-console.log("database");
-// admin seeding function
-adminSeeder();
 
+console.log("database");
 module.exports = connectToMongo;
