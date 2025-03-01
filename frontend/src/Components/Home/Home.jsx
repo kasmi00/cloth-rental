@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import fashionImage from "../../assets/fashion.webp";
-import Footer from "../Footer/Footer";
 import { DataContext } from "../../context/DataProvider";
+import Footer from "../Footer/Footer";
 
-import "./Home.css";
 import { Link } from "react-router-dom";
+import "./Home.css";
 
 const Home = () => {
   const { account } = useContext(DataContext);
@@ -12,12 +12,12 @@ const Home = () => {
     <>
       <div
         className="container"
-        // style={{ backgroundColor: "#ffe6e6" }}
+      // style={{ backgroundColor: "#ffe6e6" }}
       >
         <h1
           style={{ fontWeight: "bold", fontSize: "3rem", marginLeft: "20px" }}
         >
-          Welcome to Clothing Rental System
+          Welcome to Outfit On Call
         </h1>
         <img
           className="clothing-image"
